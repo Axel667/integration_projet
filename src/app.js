@@ -1,6 +1,6 @@
 import express from 'express';
 import logger from 'pino-http';
-import indexRoute from './routes/index.js';
+import indexRoute from "/Users/ivancanarisoy/Desktop/MASTER 1/integration/integration_projet/src/routes/index.js";
 
 const app = express();
 
