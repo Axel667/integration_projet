@@ -11,3 +11,4 @@ export const fetchData = async (req, res) => {
     res.status(500).send(`Server error: ${error.message}`);
   }
 };
+
