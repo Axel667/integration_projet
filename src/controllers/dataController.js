@@ -1,4 +1,4 @@
-import { getEnedisData } from "../../services/enedisServices.js";
+import { getEnedisData } from "../services/enedisServices.js";
 
 ///TODO
 export const fetchData = async (req, res) => {
