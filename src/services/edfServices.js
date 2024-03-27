@@ -3,7 +3,8 @@ import fetch from "node-fetch";
 
 // Assuming you need to prepend a base URL to the endpoint
 const BASE_URL = "https://opendata.edf.fr";
-const API_ENDPOINT = "/api/explore/v2.1/catalog/datasets/disponibilite-du-parc-nucleaire-d-edf-sa-present-passe-et-previsionnel/records?limit=20";
+const API_ENDPOINT =
+  "/api/explore/v2.1/catalog/datasets/emissions-de-co2-consolidees-par-pays-du-groupe-edf/records?limit=20";
 
 const getEdfData = async () => {
   const url = `${BASE_URL}${API_ENDPOINT}`;

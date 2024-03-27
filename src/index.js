@@ -16,9 +16,10 @@ const port = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 3000;
 
 server.listen(port);
 
-server.on('listening', () => {
+server.on("listening", () => {
   const addr = server.address();
-  console.log(`Listening on port ${addr.port}`);
+  const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
+  console.log(`Server is running and listening on ${bind}`);
 });
 
 server.on('error', (error) => {
