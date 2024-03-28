@@ -1,6 +1,6 @@
 import { getEdfData } from "../services/edfServices.js";
 
-///TODO
+
 export const fetchData = async (req, res) => {
   try {
     const data = await getEdfData();

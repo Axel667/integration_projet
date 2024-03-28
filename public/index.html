@@ -4,12 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API Data Display</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style type="text/css">
+        .tooltip {
+            background-color: white;
+            border: 1px solid #343333;
+            border-radius: 5px;
+            padding: 10px;
+            /* Add other styles as you see fit */
+            }
+    </style>
 </head>
+
 <body>
+    
     <a href="#" id="linkEdf">EDF Data</a>
     <a href="#" id="linkEnedis">Enedis Data</a>
     <div id="displayArea"></div>
 
     <script src="js/main.js"></script>
+    <svg id="map" width="960" height="600"></svg>
 </body>
 </html>
