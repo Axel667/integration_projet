@@ -1,4 +1,17 @@
-Tests unitaires
+node src/index.js
 
-static.html
+http://localhost:3000/
 
+
+
+///////////////////////
+
+Testing: Write tests for your API endpoints to validate their functionality.
+
+Documentation: Document your API endpoints and expected responses.
+
+Refactoring: Consider any refactoring that may improve the readability and maintainability of your code.
+
+
+Pagination management.
+use swagger
