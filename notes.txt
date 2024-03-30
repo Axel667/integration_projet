@@ -1,8 +1,8 @@
 node src/index.js
 
-http://localhost:3000/
+http://localhost:3000/index.html
 
-
+http://localhost:3000/enedis-data
 
 ///////////////////////
 

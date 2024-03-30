@@ -73,6 +73,12 @@ function clearDisplayAreas() {
   document.getElementById('displayArea').innerHTML = ''; // Vider le contenu précédent s'il existe
 }
 
+
+
+
+
+
+
 async function fetchAndDisplayEdfMap() {
   try {
     const edfResponse = await fetch("/edf-data");
