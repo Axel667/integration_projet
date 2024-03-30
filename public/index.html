@@ -12,17 +12,33 @@
             border-radius: 5px;
             padding: 10px;
             /* Add other styles as you see fit */
-            }
+        }
+        /* Styles pour l'histogramme */
+        .bar {
+            fill: steelblue;
+        }
+        .bar:hover {
+            fill: orange;
+        }
+        .axis-label {
+            font-size: 12px;
+        }
     </style>
 </head>
-
 <body>
-    
     <a href="#" id="linkEdf">EDF Data</a>
     <a href="#" id="linkEnedis">Enedis Data</a>
     <div id="displayArea"></div>
-
-    <script src="js/main.js"></script>
     <svg id="map" width="960" height="600"></svg>
+
+    <div id="piechartContainer" style="display: none;">
+        <svg id="piechart"></svg>
+    </div>
+    
+    <!-- Conteneur pour l'histogramme -->
+    <div id="histogram"></div>
+    <script src="js/main.js"></script>
+    <script src="js/histogram.js"></script>
+    
 </body>
 </html>

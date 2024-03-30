@@ -19,6 +19,8 @@ function createTable(dataArray) {
     });
   }
 
+ 
+
   // Create and append the data rows
   dataArray.forEach((item) => {
     const row = tbody.insertRow();
@@ -58,7 +60,18 @@ document.getElementById("linkEdf").addEventListener("click", function (event) {
 });
 */
 
-
+ // Function to display a loading message
+ function showLoading() {
+  const displayArea = document.getElementById("displayArea");
+  displayArea.innerHTML = 'Loading...';
+}
+///////////////////////////////////////////////////////////////////////////////////
+// Fonction pour nettoyer les zones d'affichage
+function clearDisplayAreas() {
+  document.getElementById('map').style.display = 'none';
+  document.getElementById('histogram').style.display = 'none';
+  document.getElementById('displayArea').innerHTML = ''; // Vider le contenu précédent s'il existe
+}
 
 async function fetchAndDisplayEdfMap() {
   try {
@@ -206,108 +219,67 @@ document.addEventListener("DOMContentLoaded", fetchAndDisplayEdfMap);
 
 
 
-////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////'Enedis Data' link//////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////
-
-document.getElementById("linkEnedis").addEventListener("click", function (event) {
-  event.preventDefault();
-  fetch("/enedis-data") // Make sure this matches the route defined in your Express server
-    .then((response) => response.json())
-    .then((data) => {
-      const displayArea = document.getElementById("displayArea");
-      displayArea.innerHTML = ""; // Clear any previous content
-      const table = createTable(data.results); // Use the createTable function to build the table
-      displayArea.appendChild(table); // Append the table to the display area
-    })
-    .catch((error) => {
-      console.error("Error fetching Enedis data:", error);
-      alert("Failed to fetch Enedis data. Check console for more details.");
-    });
-});
 
 
 
 
 
 
-////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////// Error handling  ///////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-
-// This function handles the display of error messages to the user
-function displayErrorMessage(message) {
-  const displayArea = document.getElementById('displayArea');
-  displayArea.innerHTML = ''; // Clear any previous content
-  const errorMessage = document.createElement('p');
-  errorMessage.textContent = message;
-  errorMessage.style.color = 'red';
-  displayArea.appendChild(errorMessage);
+// Function to display the EDF map
+function displayEdfMap() {
+  clearDisplayAreas();
+  document.getElementById('mapContainer').style.display = 'block';
+  fetchAndDisplayEdfMap();
 }
 
-// Function to show a loading message
-function showLoading() {
-  const displayArea = document.getElementById('displayArea');
-  displayArea.innerHTML = 'Loading...'; // Display loading message
+// Function to display the Enedis histogram
+function displayEnedisHistogram() {
+  clearDisplayAreas();
+  document.getElementById('histogramContainer').style.display = 'block';
+  initializeHistogram();
 }
 
+
+// Function to initialize and display the Enedis histogram
+async function initializeHistogram() {
+  try {
+    console.log("Fetching Enedis data...");
+    const response = await fetch("/enedis-data");
+    if (!response.ok) {
+      throw new Error("Failed to load Enedis data.");
+    }
+    const enedisData = await response.json();
+    console.log("Enedis data fetched:", enedisData.results);
+  } catch (error) {
+    console.error("Error fetching Enedis data:", error);
+    displayErrorMessage("Désolé, un problème est survenu lors de la récupération des données ENEDIS.");
+  }
+}
+
+
+// Event listeners for the EDF and Enedis buttons
 document.getElementById('linkEdf').addEventListener('click', function(event) {
   event.preventDefault();
-  showLoading(); // Call this function to show the loading message
-  fetch('/edf-data')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to load EDF data.');
-      }
-      return response.json();
-    })
-    /*
-    .then(data => {
-      const displayArea = document.getElementById('displayArea');
-      displayArea.innerHTML = '';
-      const table = createTable(data.results);
-      displayArea.appendChild(table);
-    })*/
-    .catch((error) => {
-      console.error("Error fetching EDF data:", error);
-      displayErrorMessage("Sorry, there was a problem retrieving the EDF data.");
-    });
+  showLoading();
+  document.getElementById('map').style.display = 'block';  // Afficher la carte
+  document.getElementById('histogram').style.display = 'none';  // Cacher l'histogramme
+  fetchAndDisplayEdfMap();
 });
 
-
-// Repeat the same pattern for Enedis data
 document.getElementById('linkEnedis').addEventListener('click', function(event) {
   event.preventDefault();
-  showLoading(); // Call this function to show the loading message
-  fetch("/enedis-data")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to load Enedis data.");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      const displayArea = document.getElementById("displayArea");
-      displayArea.innerHTML = "";
-      const table = createTable(data.results);
-      displayArea.appendChild(table);
-    })
-    .catch((error) => {
-      console.error("Error fetching Enedis data:", error);
-      displayErrorMessage("Désolé, un problème est survenu lors de la récupération des données ENEDIS.");
-    });
+  showLoading();
+  document.getElementById('map').style.display = 'none';  // Cacher la carte
+  document.getElementById('histogram').style.display = 'block';  // Afficher l'histogramme
+  initializeHistogram();
 });
 
 
-
-document.getElementById("linkEdf").addEventListener("click", function (event) {
+// Mise à jour de l'event listener pour le bouton Enedis
+document.getElementById('linkEnedis').addEventListener('click', function(event) {
   event.preventDefault();
-  fetchAndDisplayEdfMap(); // Call the function to fetch and display the EDF data map
 });
 
-// Add a similar click event listener for the Enedis data link if it's not already there
-document.getElementById("linkEnedis").addEventListener("click", function (event) {
-  event.preventDefault();
-  // Implement the fetch and display logic for Enedis data, which will display a table
-  // Reuse or modify your existing createTable function as necessary
-});
+
+// Initialize the EDF map on DOM content loaded
+document.addEventListener("DOMContentLoaded", fetchAndDisplayEdfMap);
