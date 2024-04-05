@@ -1,6 +1,6 @@
 # Projet Intégration de Données Connectées
 
-Ce projet est une application web Node.js qui récupère et affiche des données d'EDF (avec une carte) et d'Enedis (avec un histogramme). Il utilise une architecture MVC (Modèle-Vue-Contrôleur).
+Ce projet est une application web Node.js qui récupère et affiche des données d'EDF (avec une carte) et d'Enedis (avec un graphique à barres empilées). Il utilise une architecture MVC (Modèle-Vue-Contrôleur).
 
 # Table des matières
 
@@ -49,3 +49,11 @@ Cela démarrera le serveur de développement. Vous pouvez maintenant ouvrir http
 - **Affichage des données Enedis et EDF**: Le site web affiche les données récupérées sous forme de visualisations. Il y a deux types de visualisations : une carte pour les données EDF et un histogramme pour les données Enedis. Les fonctions responsables de ces visualisations sont fetchAndDisplayEdfMap et initializeHistogram dans public/js/main.js.
 - **Gestion des événements**: Le site web a des liens qui, lorsqu'ils sont cliqués, déclenchent le chargement et l'affichage des données EDF ou Enedis. Les gestionnaires d'événements pour ces liens sont définis dans public/js/main.js.
 - **Gestion des erreurs**: L'API et le site web ont une gestion des erreurs intégrée. Par exemple, si une erreur se produit lors de la récupération des données Enedis ou EDF, un message d'erreur est affiché à l'utilisateur.
+
+## Visualisation Géographique des Données
+
+La carte présentée ici est un exemple de visualisation de données géographiques. Les pays sont colorés différemment en fonction de l'émission de CO2. Cette méthode de représentation est particulièrement utile pour observer des tendances et des distributions à l'échelle mondiale ou régionale. ![Voir image ci-dessous](/images/carte.png)
+
+## Analyse Temporelle avec le Graphique à Barres Empilées
+
+Ce graphique à barres empilées est crucial pour notre analyse temporelle. Il montre la répartition de plusieurs catégories de données sur différents intervalles de temps. Chaque couleur dans une barre représente une sous-catégorie différente, ce qui permet d'examiner non seulement la valeur totale pour chaque date, mais aussi la contribution relative de chaque sous-catégorie. ![Voir image ci-dessous](/images/diagramme.png)
