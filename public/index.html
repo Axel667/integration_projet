@@ -6,6 +6,10 @@
     <title>API Data Display</title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <style type="text/css">
+        #mapContainer, #histogramContainer {
+            display: none;
+        }
+
         .tooltip {
             background-color: white;
             border: 1px solid #343333;
@@ -26,19 +30,21 @@
     </style>
 </head>
 <body>
+    
     <a href="#" id="linkEdf">EDF Data</a>
     <a href="#" id="linkEnedis">Enedis Data</a>
+
     <div id="displayArea"></div>
     <svg id="map" width="960" height="600"></svg>
+  
 
-    <div id="piechartContainer" style="display: none;">
-        <svg id="piechart"></svg>
-    </div>
-    
     <!-- Conteneur pour l'histogramme -->
     <div id="histogram"></div>
     <script src="js/main.js"></script>
+    
     <script src="js/histogram.js"></script>
+    <div id="loadingMessage-edf" style="display: none;">Loading EDF Data...</div>
+    <div id="loadingMessage-enedis" style="display: none;">Loading Enedis Data...</div>  
     
 </body>
 </html>

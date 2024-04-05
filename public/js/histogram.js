@@ -1,6 +1,9 @@
 
 document.addEventListener('DOMContentLoaded', function() {
+  
+
   d3.json('/enedis-data').then(function(data) {
+    
     const results = data.results;
 
     // Configuration de l'histogramme
@@ -91,4 +94,5 @@ document.addEventListener('DOMContentLoaded', function() {
   }).catch(function(error) {
     console.error("Error loading or parsing data:", error);
   });
+  
 });

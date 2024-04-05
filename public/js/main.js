@@ -1,86 +1,58 @@
-// Function to create a table from the fetched data
-function createTable(dataArray) {
-  // Create table elements
-  const table = document.createElement("table");
-  const thead = document.createElement("thead");
-  const tbody = document.createElement("tbody");
 
-  // Append thead and tbody to table
-  table.appendChild(thead);
-  table.appendChild(tbody);
 
-  // Create and append the header row
-  const headerRow = thead.insertRow();
-  if (dataArray.length > 0) {
-    Object.keys(dataArray[0]).forEach((key) => {
-      const th = document.createElement("th");
-      th.textContent = key.toUpperCase().replace(/_/g, " ");
-      headerRow.appendChild(th);
-    });
+function showLoading(type) {
+  document.getElementById(`loadingMessage-${type}`).style.display = "block";
+}
+
+// Function to hide the loading message for the appropriate container
+function hideLoading(type) {
+  document.getElementById(`loadingMessage-${type}`).style.display = "none";
+
+  
+}
+// Function to display the EDF map
+function displayEdfMap() {
+  currentVisualization = "EDF";
+  clearDisplayAreas(() => {
+    showLoading("edf");
+    fetchAndDisplayEdfMap();
+  });
+}
+
+// Function to display the Enedis histogram
+function displayEnedisHistogram() {
+  currentVisualization = "Enedis";
+  clearDisplayAreas(() => {
+    showLoading("enedis");
+    initializeHistogram();
+  });
+}
+
+// Event listeners for the EDF and Enedis buttons
+document.getElementById("linkEdf").addEventListener("click", displayEdfMap);
+document.getElementById("linkEnedis").addEventListener("click", displayEnedisHistogram);
+
+
+function clearDisplayAreas(callback) {
+  document.getElementById("map").style.display = "none";
+  document.getElementById("histogram").style.display = "none";
+  document.getElementById("displayArea").innerHTML = ""; // Vider le contenu précédent s'il existe
+  if (callback) {
+    callback();
   }
-
- 
-
-  // Create and append the data rows
-  dataArray.forEach((item) => {
-    const row = tbody.insertRow();
-    Object.values(item).forEach((value) => {
-      const cell = row.insertCell();
-      // Handle if value is an object (like 'geo_shape') differently, perhaps stringify
-      cell.textContent = typeof value === "object" ? JSON.stringify(value) : value;
-    });
-  });
-
-  // Set basic styles for visibility
-  table.style.width = "100%";
-  table.style.borderCollapse = "collapse";
-  table.querySelectorAll("th, td").forEach((cell) => {
-    cell.style.border = "1px solid black";
-    cell.style.padding = "5px";
-    cell.style.textAlign = "left";
-  });
-
-  return table;
 }
-/*
-document.getElementById("linkEdf").addEventListener("click", function (event) {
-  event.preventDefault();
-  fetch("/edf-data")
-    .then((response) => response.json())
-    .then((data) => {
-      const displayArea = document.getElementById("displayArea");
-      displayArea.innerHTML = ""; // Clear any previous content
-      const table = createTable(data.results); // Use the createTable function to build the table
-      displayArea.appendChild(table); // Append the table to the display area
-    })
-    .catch((error) => {
-      console.error("Error fetching EDF data:", error);
-      alert("Failed to fetch EDF data. Check console for more details.");
-    });
+
+document.addEventListener("DOMContentLoaded", () => {
+  clearDisplayAreas();
 });
-*/
 
- // Function to display a loading message
- function showLoading() {
-  const displayArea = document.getElementById("displayArea");
-  displayArea.innerHTML = 'Loading...';
-}
-///////////////////////////////////////////////////////////////////////////////////
-// Fonction pour nettoyer les zones d'affichage
-function clearDisplayAreas() {
-  document.getElementById('map').style.display = 'none';
-  document.getElementById('histogram').style.display = 'none';
-  document.getElementById('displayArea').innerHTML = ''; // Vider le contenu précédent s'il existe
-}
-
-
-
-
-
-
+/////////////////////////////////////  MAP   //////////////////////////////////////////////
 
 async function fetchAndDisplayEdfMap() {
+   // Ensure this element is in your HTML
+
   try {
+    showLoading("edf");
     const edfResponse = await fetch("/edf-data");
     const edfData = await edfResponse.json();
     console.log("EDF Data:", edfData); // Log the data to check its structure
@@ -94,11 +66,14 @@ async function fetchAndDisplayEdfMap() {
     }
 
     renderMap(world, edfData); // Pass both the world and EDF data to the render function
+     
+    hideLoading("edf");
   } catch (error) {
     console.error("Error fetching the EDF data or GeoJSON:", error);
+
+    hideLoading("displayArea");
   }
 }
-
 
 function mergeData(countries, edfData) {
   // Check if edfData.results is an array here. If not, log an error.
@@ -117,7 +92,6 @@ function mergeData(countries, edfData) {
 
   return countries;
 }
-
 
 function convertEdfDataToGeoJSON(edfData) {
   return {
@@ -139,7 +113,7 @@ function convertEdfDataToGeoJSON(edfData) {
           consolidation_method: item.consolidation_method,
           // Add any other properties you want to visualize or use in tooltips
         },
-        geometry: item.geo_shape.geometry // This assumes the geometry is correctly formatted
+        geometry: item.geo_shape.geometry, // This assumes the geometry is correctly formatted
       })),
   };
 }
@@ -148,6 +122,9 @@ function renderMap(world, edfData) {
   if (!edfData || !Array.isArray(edfData.results)) {
     console.error("Invalid EDF data:", edfData);
     return; // Exit the function if edfData is not valid
+  }
+  if (currentVisualization !== "EDF") {
+    return; // Stop the rendering process if we're no longer in the EDF context
   }
   const countries = mergeData(world.features, edfData);
 
@@ -206,6 +183,7 @@ function renderMap(world, edfData) {
       d3.select(this).attr("stroke", "#fff").attr("stroke-width", 0.5); // Reset border
       tooltip.style("display", "none");
     });
+     d3.select("#map").style("display", "block");
 }
 
 // Helper function to generate tooltip content
@@ -219,35 +197,18 @@ function generateTooltipContent(data) {
           Year: ${data.annee}`;
 }
 
-fetchAndDisplayEdfMap();
-document.addEventListener("DOMContentLoaded", fetchAndDisplayEdfMap);
 
 
 
 
-
-
-
-
-
-
-// Function to display the EDF map
-function displayEdfMap() {
-  clearDisplayAreas();
-  document.getElementById('mapContainer').style.display = 'block';
-  fetchAndDisplayEdfMap();
-}
-
-// Function to display the Enedis histogram
-function displayEnedisHistogram() {
-  clearDisplayAreas();
-  document.getElementById('histogramContainer').style.display = 'block';
-  initializeHistogram();
-}
-
+/////////////////////////////////////  HISTOGRAM   //////////////////////////////////////////////
 
 // Function to initialize and display the Enedis histogram
 async function initializeHistogram() {
+  if (currentVisualization !== "Enedis") {
+    return; // Stop the rendering process if we're no longer in the EDF context
+  }
+  showLoading("enedis");
   try {
     console.log("Fetching Enedis data...");
     const response = await fetch("/enedis-data");
@@ -259,33 +220,12 @@ async function initializeHistogram() {
   } catch (error) {
     console.error("Error fetching Enedis data:", error);
     displayErrorMessage("Désolé, un problème est survenu lors de la récupération des données ENEDIS.");
+  }finally {
+    hideLoading("enedis");
   }
+  d3.select("#histogram").style("display", "block");
 }
 
 
-// Event listeners for the EDF and Enedis buttons
-document.getElementById('linkEdf').addEventListener('click', function(event) {
-  event.preventDefault();
-  showLoading();
-  document.getElementById('map').style.display = 'block';  // Afficher la carte
-  document.getElementById('histogram').style.display = 'none';  // Cacher l'histogramme
-  fetchAndDisplayEdfMap();
-});
-
-document.getElementById('linkEnedis').addEventListener('click', function(event) {
-  event.preventDefault();
-  showLoading();
-  document.getElementById('map').style.display = 'none';  // Cacher la carte
-  document.getElementById('histogram').style.display = 'block';  // Afficher l'histogramme
-  initializeHistogram();
-});
 
 
-// Mise à jour de l'event listener pour le bouton Enedis
-document.getElementById('linkEnedis').addEventListener('click', function(event) {
-  event.preventDefault();
-});
-
-
-// Initialize the EDF map on DOM content loaded
-document.addEventListener("DOMContentLoaded", fetchAndDisplayEdfMap);
