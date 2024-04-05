@@ -2,14 +2,15 @@
 
 Ce projet est une application web Node.js qui récupère et affiche des données d'EDF (avec une carte) et d'Enedis (avec un histogramme). Il utilise une architecture MVC (Modèle-Vue-Contrôleur).
 
-## Table des Matières
+# Table des matières
 
-- [À Propos](#à-propos)
-- [Commencer](#commencer)
-- [Usage](#usage)
-- [Contribution](#contribution)
-- [Licence](#licence)
-- [Contact](#contact)
+1. [Projet Intégration de Données Connectées](#projet-intégration-de-données-connectées)
+2. [Sources des Données](#sources-des-données)
+3. [Documentation API avec Swagger](#documentation-api-avec-swagger)
+4. [Prérequis](#prérequis)
+   - [Installation](#installation)
+   - [Installation des dépendances](#installation-des-dépendances)
+   - [Lancer le projet](#lancer-le-projet)
 
 ## Sources des Données
 
@@ -38,6 +39,6 @@ npm install
 
 ### Lancer le projet
 Pour lancer le projet, utilisez la commande :
-npm run dev
+npm start
 
-Cela démarrera le serveur de développement. Vous pouvez maintenant ouvrir votre navigateur et naviguer vers http://localhost:3000 pour voir le projet.
+Cela démarrera le serveur de développement. Vous pouvez maintenant ouvrir http://localhost:3000 sur votre naviguateur pour voir le projet.
