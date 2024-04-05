@@ -1,5 +1,3 @@
-
-/*
 function showLoading(type) {
   document.getElementById(`loadingMessage-${type}`).style.display = "block";
 }
@@ -7,35 +5,21 @@ function showLoading(type) {
 // Function to hide the loading message for the appropriate container
 function hideLoading(type) {
   document.getElementById(`loadingMessage-${type}`).style.display = "none";
-
-  
 }
 // Function to display the EDF map
 function displayEdfMap() {
-  currentVisualization = "EDF";
   clearDisplayAreas(() => {
     showLoading("edf");
     fetchAndDisplayEdfMap();
   });
 }
 
-// Function to display the Enedis histogram
-function displayEnedisHistogram() {
-  currentVisualization = "Enedis";
-  clearDisplayAreas(() => {
-    showLoading("enedis");
-    initializeHistogram();
-  });
-}
-
 // Event listeners for the EDF and Enedis buttons
-document.getElementById("linkEdf").addEventListener("click", displayEdfMap);
-document.getElementById("linkEnedis").addEventListener("click", displayEnedisHistogram);
+//document.getElementById("linkEdf").addEventListener("click", displayEdfMap);
 
 
 function clearDisplayAreas(callback) {
   document.getElementById("map").style.display = "none";
-  document.getElementById("histogram").style.display = "none";
   document.getElementById("displayArea").innerHTML = ""; // Vider le contenu précédent s'il existe
   if (callback) {
     callback();
@@ -43,13 +27,15 @@ function clearDisplayAreas(callback) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  clearDisplayAreas();
+  showLoading("edf");
+  fetchAndDisplayEdfMap(); // Call the function to fetch and display the EDF map
 });
+
 
 /////////////////////////////////////  MAP   //////////////////////////////////////////////
 
 async function fetchAndDisplayEdfMap() {
-   // Ensure this element is in your HTML
+  // Ensure this element is in your HTML
 
   try {
     showLoading("edf");
@@ -66,7 +52,7 @@ async function fetchAndDisplayEdfMap() {
     }
 
     renderMap(world, edfData); // Pass both the world and EDF data to the render function
-     
+
     hideLoading("edf");
   } catch (error) {
     console.error("Error fetching the EDF data or GeoJSON:", error);
@@ -123,9 +109,7 @@ function renderMap(world, edfData) {
     console.error("Invalid EDF data:", edfData);
     return; // Exit the function if edfData is not valid
   }
-  if (currentVisualization !== "EDF") {
-    return; // Stop the rendering process if we're no longer in the EDF context
-  }
+
   const countries = mergeData(world.features, edfData);
 
   const width = 960;
@@ -183,7 +167,7 @@ function renderMap(world, edfData) {
       d3.select(this).attr("stroke", "#fff").attr("stroke-width", 0.5); // Reset border
       tooltip.style("display", "none");
     });
-     d3.select("#map").style("display", "block");
+  d3.select("#map").style("display", "block");
 }
 
 // Helper function to generate tooltip content
@@ -198,34 +182,4 @@ function generateTooltipContent(data) {
 }
 
 
-
-
-
-/////////////////////////////////////  HISTOGRAM   //////////////////////////////////////////////
-
-// Function to initialize and display the Enedis histogram
-async function initializeHistogram() {
-  if (currentVisualization !== "Enedis") {
-    return; // Stop the rendering process if we're no longer in the EDF context
-  }
-  showLoading("enedis");
-  try {
-    console.log("Fetching Enedis data...");
-    const response = await fetch("/enedis-data");
-    if (!response.ok) {
-      throw new Error("Failed to load Enedis data.");
-    }
-    const enedisData = await response.json();
-    console.log("Enedis data fetched:", enedisData.results);
-  } catch (error) {
-    console.error("Error fetching Enedis data:", error);
-    displayErrorMessage("Désolé, un problème est survenu lors de la récupération des données ENEDIS.");
-  }finally {
-    hideLoading("enedis");
-  }
-  d3.select("#histogram").style("display", "block");
-}
-
-
-*/
 

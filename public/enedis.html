@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enedis Energy Data Visualization</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Enedis Energy Data Visualization</h1>
+        <nav>
+            <ul>
+                <li><a href="main.html">Home</a></li>
+                <li><a href="edf.html">EDF Data</a></li>
+                <li><a href="enedis.html">Enedis Data</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+      <div id="loadingMessage-enedis" style="display: none;">Loading Enedis Data...</div>
+      <div id="histogram"></div>
+
+      <script src="js/enedis.js"></script>
+    </main>
+
+    <footer>
+        <p>© 2024 Energy Data Portal</p>
+    </footer>
+
+</body>
+</html>
