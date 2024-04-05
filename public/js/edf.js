@@ -113,6 +113,7 @@ function renderMap(world, edfData) {
     return; // Exit the function if edfData is not valid
   }
 
+
   const countries = mergeData(world.features, edfData);
 
   const width = 960;
@@ -120,7 +121,11 @@ function renderMap(world, edfData) {
 
   const svg = d3.select("#map").attr("width", width).attr("height", height);
 
-  const projection = d3.geoMercator().fitSize([width, height], world);
+  const projection = d3
+    .geoMercator()
+    .center([-52.118954, 31.076089]) // Coordinates for Paris, France
+    .scale(200)
+    .translate([width / 2, height / 2]);
   const pathGenerator = d3.geoPath().projection(projection);
 
   const colorScale = d3
@@ -156,7 +161,7 @@ function renderMap(world, edfData) {
   svg
     .selectAll(".country")
     .on("mouseover", function (event, d) {
-      d3.select(this).attr("stroke", "black").attr("stroke-width", 1.5); // Highlight border
+      d3.select(this).attr("stroke", "blue").attr("stroke-width", 1); // Red border
       tooltip
         .style("display", "block")
         .html(generateTooltipContent(d.properties.edfData)) // Function to generate HTML content based on data
@@ -171,6 +176,7 @@ function renderMap(world, edfData) {
       tooltip.style("display", "none");
     });
   d3.select("#map").style("display", "block");
+
 }
 
 // Helper function to generate tooltip content
@@ -182,6 +188,9 @@ function generateTooltipContent(data) {
   return `<strong>${data.spatial_perimeter}</strong><br>
           Emissions: ${data.emissions_co2.toFixed(2)} ktonnes<br>
           Year: ${data.annee}`;
+
+
+         
 }
 
 
