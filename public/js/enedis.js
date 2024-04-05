@@ -14,9 +14,6 @@ function displayEnedisHistogram() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector('a[href="enedis.html"]').classList.add("active");
-});
 
 function clearDisplayAreas(callback) {
 
@@ -64,6 +61,14 @@ document.addEventListener("DOMContentLoaded", function () {
   d3.json("/enedis-data")
     .then(function (data) {
       const results = data.results;
+
+      // Extraction des catégories uniques
+      const categories = [...new Set(results.map(d => d.categorie))];
+
+      // Création d'une échelle de couleurs pour les catégories
+      const colorScale = d3.scaleOrdinal()
+        .domain(categories)
+        .range(d3.schemeTableau10); // Vous pouvez choisir n'importe quel schéma de couleurs ici
 
       // Configuration de l'histogramme
       const margin = { top: 10, right: 30, bottom: 70, left: 100 },
@@ -124,32 +129,39 @@ document.addEventListener("DOMContentLoaded", function () {
       // Fonction de formatage pour les infobulles
       const formatTooltip = d3.format(",.0f");
 
-      // Création des barres
-      svg
-        .selectAll(".bar")
-        .data(results)
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("x", (d) => x(d.jour))
-        .attr("y", (d) => y(d.value))
-        .attr("width", x.bandwidth())
-        .attr("height", (d) => height - y(d.value))
-        .attr("fill", "#69b3a2")
-        .on("mouseover", function (event, d) {
-          d3.select(this).attr("fill", "orange");
-          // Afficher l'infobulle ici
-          d3.select("#tooltip")
-            .style("opacity", 1)
-            .html(`Catégorie: ${d.categorie}<br>Valeur: ${formatTooltip(d.value)} W`)
-            .style("left", event.pageX + 5 + "px")
-            .style("top", event.pageY - 28 + "px");
-        })
-        .on("mouseout", function (d) {
-          d3.select(this).attr("fill", "#69b3a2");
-          // Cacher l'infobulle ici
-          d3.select("#tooltip").style("opacity", 0);
-        });
+      // Fonction pour ajuster la luminosité de la couleur
+      function adjustBrightness(color, amount) {
+        const hsl = d3.hsl(color);
+        hsl.l += amount;
+        hsl.l = Math.max(0, Math.min(1, hsl.l)); // Assurez-vous que la luminosité reste entre 0 et 1
+        return hsl.toString();
+      }
+
+      // Création des barres avec gestion des événements
+      svg.selectAll(".bar")
+      .data(results)
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("x", d => x(d.jour))
+      .attr("y", d => y(d.value))
+      .attr("width", x.bandwidth())
+      .attr("height", d => height - y(d.value))
+      .attr("fill", d => colorScale(d.categorie))
+      .on("mouseover", function (event, d) {
+        d3.select(this).attr("fill", adjustBrightness(colorScale(d.categorie), -0.2)); // Assombrir la couleur
+        // Afficher l'infobulle ici
+        d3.select("#tooltip")
+          .style("opacity", 1)
+          .html(`Catégorie: ${d.categorie}<br>Valeur: ${formatTooltip(d.value)} W`)
+          .style("left", event.pageX + 5 + "px")
+          .style("top", event.pageY - 28 + "px");
+      })
+      .on("mouseout", function (event, d) {
+        d3.select(this).attr("fill", colorScale(d.categorie)); // Réattribuer la couleur originale
+        // Cacher l'infobulle ici
+        d3.select("#tooltip").style("opacity", 0);
+      });
 
       // Ajouter une infobulle dans le HTML avec l'id 'tooltip' et le style initial 'opacity: 0'
       const tooltip = d3
@@ -163,3 +175,4 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error loading or parsing data:", error);
     });
 });
+
