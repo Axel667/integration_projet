@@ -14,6 +14,9 @@ function displayEnedisHistogram() {
   });
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector('a[href="enedis.html"]').classList.add("active");
+});
 
 function clearDisplayAreas(callback) {
 

@@ -1,0 +1,109 @@
+/* style.css */
+
+/* Reset some default styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background-color: #f4f7fa;
+  line-height: 1.6;
+}
+
+header {
+  background-color: #0056b3; /* Darker blue for header */
+  color: #ffffff;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+nav ul {
+  list-style: none;
+  background-color: #0056b3; /* Consistent with header */
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  padding: .5rem 1rem;
+  display: inline-block;
+  background-color: #007bff; /* Lighter blue for inactive items */
+  transition: background-color 0.3s;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  background-color: #003366; /* Even darker blue for hover and active items */
+  color: #ffffff; /* Ensuring text color is white for better readability */
+}
+
+main {
+  padding: 1rem;
+  margin-bottom: 4rem; /* Provide space for the footer */
+}
+
+footer {
+  background-color: #007bff;
+  color: #ffffff;
+  text-align: center;
+  padding: 1rem 0;
+  position: relative; /* changed to relative */
+  bottom: 0;
+  width: 100%;
+}
+
+/* Classes for visualization containers */
+#map,
+#histogram {
+  margin: 1rem auto;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
+}
+
+#loadingMessage-edf,
+#loadingMessage-enedis {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the loading message */
+  font-size: 1.5rem;
+  color: #007bff;
+}
+
+/* Tooltip styling */
+.tooltip {
+  background-color: #ffffff;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  padding: 10px;
+  position: absolute;
+  display: none;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
+}
+
+/* Styles for bars in the histogram */
+.bar {
+  fill: #007bff;
+}
+
+.bar:hover {
+  fill: #0056b3;
+}

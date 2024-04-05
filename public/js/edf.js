@@ -16,6 +16,9 @@ function displayEdfMap() {
 
 // Event listeners for the EDF and Enedis buttons
 //document.getElementById("linkEdf").addEventListener("click", displayEdfMap);
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector('a[href="edf.html"]').classList.add("active");
+});
 
 
 function clearDisplayAreas(callback) {

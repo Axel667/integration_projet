@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Energy Data Visualizations</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Add 'active' class to the Home link
+        document.querySelector('nav ul li a[href="main.html"]').classList.add('active');
+      });
+    </script>
 </head>
 <body>
     <header>
         <h1>Energy Data Visualizations</h1>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="main.html">Home</a></li>
                 <li><a href="edf.html">EDF Data</a></li>
                 <li><a href="enedis.html">Enedis Data</a></li>
             </ul>
