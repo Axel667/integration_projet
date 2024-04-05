@@ -11,7 +11,9 @@ Ce projet est une application web Node.js qui récupère et affiche des données
    - [Installation](#installation)
    - [Installation des dépendances](#installation-des-dépendances)
    - [Lancer le projet](#lancer-le-projet)
-5. [Fonctionnalités de l'API et du site web](#fonctionnalités-de-l-'-api-et-du-site-web)
+5. [Fonctionnalités de l'API et du site web](#fonctionnalités-de-l'api-et-du-site-web)
+6. [Visualisation Géographique des Données](#visualisation-géographique-des-données)
+7. [Analyse Temporelle avec le Graphique à Barres Empilées](#analyse-temporelle-avec-le-graphique-à-barres-empilées)
 
 ## Sources des Données
 
