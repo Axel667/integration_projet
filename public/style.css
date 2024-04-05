@@ -12,6 +12,7 @@ body {
   color: #333;
   background-color: #f4f7fa;
   line-height: 1.6;
+
 }
 
 header {
@@ -55,6 +56,9 @@ nav ul li a.active {
 main {
   padding: 1rem;
   margin-bottom: 4rem; /* Provide space for the footer */
+  position: relative; /* Change to relative */
+  clear: both; /* Clear floated elements */
+  width: 100%;
 }
 
 footer {
@@ -98,3 +102,45 @@ footer {
   z-index: 10;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* subtle shadow for depth */
 }
+<<<<<<< Updated upstream
+=======
+
+/* Styles for bars in the histogram */
+.bar {
+  fill: #007bff;
+}
+
+.bar:hover {
+  fill: #0056b3;
+}
+
+.content-container {
+  display: flex;
+  justify-content: space-around; /* Change to space-around for even spacing */
+  align-items: flex-start;
+  margin: 1rem auto;
+}
+
+/* Set the width and margin of the map container */
+#map-container {
+  flex: 3; /* Allocate more space to the map container */
+  /* Remove margin-right if you want the map to use all available space */
+}
+
+/* Set the width of the description container */
+#description {
+  flex: 1; /* Allocate less space to the description container */
+  padding: 1rem;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-left: 1rem; /* Maintain some space between the description and map */
+  /* Add max-width to prevent the description from getting too wide on large screens */
+  max-width: 300px; /* Adjust this value based on your preference */
+}
+
+/* Style adjustments for the map SVG to take up available space */
+#map {
+  width: 90%; /* Full width of its container */ /* Maintain aspect ratio */
+}
+>>>>>>> Stashed changes
