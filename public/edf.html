@@ -20,9 +20,19 @@
     </header>
     
     <main> 
-    <div id="loadingMessage-edf" style="display: none;">Loading EDF Data...</div>  
-    <div id="displayArea"></div>
-    <svg id="map" width="960" height="600"></svg>
+         <div class="content-container">
+         <div id="map-container">
+            <svg id="map" width="960" height="600"></svg>
+            <div id="loadingMessage-edf" style="display: none;">Loading EDF Data...</div>
+         </div>
+         
+         <aside id="description">
+            <h3>Data Description</h3>
+            <p>Émissions directes de CO2 des sociétés du groupe EDF, par pays, liées à la production d’électricité et de chaleur.</p>
+            <p>Il s’agit des émissions directes, hors analyse du cycle de vie (ACV) des moyens de production et des combustibles. Les unités sont exprimées en ktonnes.</p>
+            <p>Données consolidées selon la participation d’EDF dans les sociétés du Groupe, y compris les participations dans les entreprises associées et coentreprises. Lorsqu’on l’on précise le périmètre « Monde », il s’agit des pays dans lesquels EDF est présent.</p>
+         </aside>
+         </div>
   
     <script src="js/edf.js"></script>
     </main>
